@@ -3,26 +3,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const questions = document.querySelectorAll('[data-faq-question]');
 
     const heroSection = document.querySelector('.hero');
-    let alturaHero = heroSection ? heroSection.clientHeight : 0;
-
-    // Recalcula a altura do hero quando a janela for redimensionada
-    window.addEventListener('resize', function () {
-        if (heroSection) {
-            alturaHero = heroSection.clientHeight;
-        }
-    });
+    const alturaHero = heroSection.clientHeight;
 
     window.addEventListener('scroll', function () {
         const posicaoAtual = window.scrollY;
 
-        // Oculta elementos do header apenas enquanto o scroll estiver dentro
-        // da altura do hero (entre topo da página e o fim do hero).
-        if (posicaoAtual > 0 && posicaoAtual < alturaHero) {
+        if (posicaoAtual < alturaHero) {
             ocultaElementosDoHeader();
         } else {
             exibeElementosDoHeader();
         }
-    })
+    });
 
     // Seção de atrações, programação das abas
     for (let i = 0; i < buttons.length; i++) {
