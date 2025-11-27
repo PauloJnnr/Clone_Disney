@@ -16,14 +16,20 @@ function styles() {
 }
 
 function images() {
-    return gulp.src('src/images/**/*')
-        .pipe(imagemin())
+    return gulp.src('src/images/**/*', { encoding: false })
+        .pipe(imagemin([
+            imagemin.gifsicle({ interlaced: true }),
+            imagemin.mozjpeg({ quality: 75 }),
+            imagemin.optipng({ optimizationLevel: 5 }),
+            imagemin.svgo({ removeViewBox: true })
+        ], {
+            verbose: true
+        }))
         .pipe(gulp.dest('./dist/images'));
 }
 
-exports.default = gulp.parallel(styles, scripts);
+exports.default = gulp.parallel(styles, scripts, images);
 exports.watch = function () {
     gulp.watch('./src/styles/**/*.scss', gulp.parallel(styles));
     gulp.watch('./src/scripts/**/*.js', gulp.parallel(scripts));
 }
-
